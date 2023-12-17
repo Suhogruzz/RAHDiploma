@@ -1,11 +1,11 @@
+import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { NavLink } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { storageActions } from '../../../reducers';
 import './mainCart.css';
 
-const Cart = ({ name }) => {
-
+function Cart({ name }) {
   const cart = useSelector((state) => state[name].items);
   const dispatch = useDispatch();
   const handleRemoveItem = (id, size) => {
@@ -13,13 +13,13 @@ const Cart = ({ name }) => {
     if (cart[index].count === 1) {
       dispatch(storageActions[name].setItems([...cart.filter((item, idx) => idx !== index)], name));
     } else {
-      let curItem = {
+      const curItem = {
         ...cart[index],
-        count: cart[index].count - 1
-      }
+        count: cart[index].count - 1,
+      };
       dispatch(storageActions[name].setItems([...cart.filter((item, idx) => idx !== index), curItem], name));
     }
-  }
+  };
 
   const total = cart.reduce((res, item) => (res + item.count * item.price), 0);
 
@@ -47,8 +47,16 @@ const Cart = ({ name }) => {
                 <td><NavLink to={`/products/${v.id}`}>{v.title}</NavLink></td>
                 <td>{v.size}</td>
                 <td>{v.count}</td>
-                <td>{v.price.toLocaleString()} руб.</td>
-                <td>{(v.price * v.count).toLocaleString()} руб.</td>
+                <td>
+                  {v.price.toLocaleString()}
+                  {' '}
+                  руб.
+                </td>
+                <td>
+                  {(v.price * v.count).toLocaleString()}
+                  {' '}
+                  руб.
+                </td>
                 <td>
                   <button
                     className="btn btn-outline-danger btn-sm"
@@ -61,7 +69,11 @@ const Cart = ({ name }) => {
             ))}
             <tr>
               <td colSpan="5" className="text-right">Общая стоимость</td>
-              <td>{total.toLocaleString()} руб.</td>
+              <td>
+                {total.toLocaleString()}
+                {' '}
+                руб.
+              </td>
             </tr>
           </tbody>
         ) : (
@@ -74,9 +86,9 @@ const Cart = ({ name }) => {
           </tbody>
         )}
       </table>
-    </section >
-  )
-};
+    </section>
+  );
+}
 
 Cart.propTypes = {
   name: PropTypes.string.isRequired,
@@ -84,6 +96,6 @@ Cart.propTypes = {
 
 Cart.defaultProps = {
   name: 'storage_cart',
-}
+};
 
 export default Cart;

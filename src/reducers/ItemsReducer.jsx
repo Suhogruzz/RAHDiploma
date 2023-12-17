@@ -4,17 +4,16 @@ import { statusTypes } from '../store/storeTypes';
 const defaultState = {
   items: [],
   selectedItem: {},
-  status: statusTypes.IDLE
+  status: statusTypes.IDLE,
 };
 
 const generateItemsReducer = ({ name, url, initialState = defaultState }) => createSlice({
-  name: name,
-  initialState: initialState,
+  name,
+  initialState,
   reducers: {
     requestItems: {
       reducer: (state, action) => {
-        if (!action.payload.update)
-          state.items = [];
+        if (!action.payload.update) state.items = [];
         state.status = statusTypes.LOADING;
       },
       prepare: (data, update = false) => ({
@@ -22,14 +21,14 @@ const generateItemsReducer = ({ name, url, initialState = defaultState }) => cre
           name,
           url,
           data,
-          update: update ? true : false
+          update: !!update,
         } : {
           name,
           url,
-          update: update ? true : false
+          update: !!update,
         },
 
-      })
+      }),
     },
     setItemsSuccess(state, action) {
       state.items = [...state.items, ...action.payload];
@@ -49,16 +48,16 @@ const generateItemsReducer = ({ name, url, initialState = defaultState }) => cre
     postDataRequest: {
       reducer: (state, action) => {
         state.status = statusTypes.LOADING;
-        console.log('postDataRequest', action)
+        console.log('postDataRequest', action);
       },
       prepare: (data) => ({
         payload: {
           data,
           name,
-          url
-        }
-      })
-    }
+          url,
+        },
+      }),
+    },
   },
 });
 

@@ -1,18 +1,18 @@
-import { createSlice } from '@reduxjs/toolkit'
+import { createSlice } from '@reduxjs/toolkit';
 import { statusTypes } from '../store/storeTypes';
 
 const defaultState = {
   items: [],
-  status: statusTypes.IDLE
+  status: statusTypes.IDLE,
 };
 
 const preLoadStorageState = (name, initialState) => {
   const data = sessionStorage.getItem(name);
-  return data !== null ? JSON.parse(data) : initialState
-}
+  return data !== null ? JSON.parse(data) : initialState;
+};
 
 const generateStorageReducer = ({ name, initialState = defaultState }) => createSlice({
-  name: name,
+  name,
   initialState: preLoadStorageState(name, initialState),
   reducers: {
     setItems: {
@@ -23,9 +23,9 @@ const generateStorageReducer = ({ name, initialState = defaultState }) => create
       prepare: (data, name) => ({
         payload: {
           data,
-          name
-        }
-      })
+          name,
+        },
+      }),
     },
     clearItems: {
       reducer: (state, action) => {
@@ -33,23 +33,22 @@ const generateStorageReducer = ({ name, initialState = defaultState }) => create
       },
       prepare: (name) => ({
         payload: {
-          name
-        }
-      })
+          name,
+        },
+      }),
     },
     setStatus: {
       reducer: (state, action) => {
-        if (Object.keys(statusTypes).some((item) => statusTypes[item] === action.payload.data))
-          state.status = action.payload.data;
+        if (Object.keys(statusTypes).some((item) => statusTypes[item] === action.payload.data)) state.status = action.payload.data;
       },
       prepare: (data, name) => ({
         payload: {
           data,
-          name
-        }
-      })
-    }
-  }
+          name,
+        },
+      }),
+    },
+  },
 });
 
 export default generateStorageReducer;

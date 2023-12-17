@@ -8,8 +8,7 @@ import OrderMessage from './OrderMessage';
 import ErrorBubble from '../../common/Error/error';
 import './orderForm.css';
 
-const OrderForm = ({ name, namePost }) => {
-
+function OrderForm({ name, namePost }) {
   const cart = useSelector((state) => state[name].items);
   const cartStatus = useSelector((state) => state[name].status);
   const postResult = useSelector((state) => state[namePost].result);
@@ -22,32 +21,32 @@ const OrderForm = ({ name, namePost }) => {
   const handleChangePhone = (e) => {
     // eslint-disable-next-line no-useless-escape
     setPhone(e.target.value.replace(/[^\+\(\)0-9]/g, ''));
-  }
+  };
 
   const handleChangeAddress = (e) => {
     setAddress(e.target.value.trimLeft());
-  }
+  };
 
   const handleChangeAgreement = (e) => {
     setAgreement((prev) => !prev);
-  }
+  };
 
   const chekDisableSubmitButton = () => (
-    phone && address && agreement ? false : true
+    !(phone && address && agreement)
   );
 
   const handleSubmit = () => {
     const data = {
       owner: {
         phone,
-        address
+        address,
       },
-      items: cart
+      items: cart,
 
-    }
+    };
     dispatch(postActions[namePost].postDataRequest(data, namePost));
     dispatch(storageActions[name].setStatus(statusTypes.SUCCESS, name));
-  }
+  };
 
   useEffect(() => {
     if (postStatus === statusTypes.SUCCESS && cartStatus === statusTypes.SUCCESS && Object.keys(postResult).length) {
@@ -57,22 +56,19 @@ const OrderForm = ({ name, namePost }) => {
       dispatch(postActions[namePost].clearPostResult(namePost));
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [postStatus, cartStatus])
+  }, [postStatus, cartStatus]);
 
-  if (postStatus === statusTypes.LOADING)
-    return <Loading />
+  if (postStatus === statusTypes.LOADING) return <Loading />;
 
-  if (postStatus === statusTypes.SUCCESS)
-    return <OrderMessage order={postResult} />
+  if (postStatus === statusTypes.SUCCESS) return <OrderMessage order={postResult} />;
 
-  if (postStatus === statusTypes.ERROR)
-    return <ErrorBubble retry={handleSubmit} />
+  if (postStatus === statusTypes.ERROR) return <ErrorBubble retry={handleSubmit} />;
 
-  if (cart && cart.length)
+  if (cart && cart.length) {
     return (
       <section className="order">
         <h2 className="text-center">Оформить заказ</h2>
-        <div className="card order-card" >
+        <div className="card order-card">
           <form className="card-body">
             <div className="form-group">
               <label htmlFor="phone">
@@ -99,28 +95,28 @@ const OrderForm = ({ name, namePost }) => {
               type="submit"
               className="btn btn-outline-secondary"
               disabled={chekDisableSubmitButton()}
-              onClick={(e) => { e.preventDefault(); handleSubmit() }}
+              onClick={(e) => { e.preventDefault(); handleSubmit(); }}
             >
               Оформить
             </button>
           </form>
         </div>
       </section>
-    )
-  else
-    return (
-      <section className="order"></section>
     );
-};
+  }
+  return (
+    <section className="order" />
+  );
+}
 
 OrderForm.propTypes = {
   name: PropTypes.string.isRequired,
-  namePost: PropTypes.string.isRequired
+  namePost: PropTypes.string.isRequired,
 };
 
 OrderForm.defaultProps = {
   name: 'storage_cart',
   namePost: 'post_cart',
-}
+};
 
 export default OrderForm;

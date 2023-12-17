@@ -1,4 +1,4 @@
-import { storageActions } from "../reducers";
+import { storageActions } from '../reducers';
 
 export const storageMiddleware = (state) => (next) => (action) => {
   const result = next(action);
@@ -6,4 +6,4 @@ export const storageMiddleware = (state) => (next) => (action) => {
     sessionStorage.setItem(action.payload.name, JSON.stringify(state.getState()[action.payload.name]));
   }
   return result;
-}
+};

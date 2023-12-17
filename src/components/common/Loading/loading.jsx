@@ -1,21 +1,24 @@
-import PropTypes from 'prop-types'
+import React from 'react';
+import PropTypes from 'prop-types';
 import './loading.css';
 
-const Loading = ({ text = 'Загрузка...' }) => (
-  <div className="preloader" title={text} alt={text}>
-    <span></span>
-    <span></span>
-    <span></span>
-    <span></span>
-  </div>
-);
+function Loading({ text = 'Загрузка...' }) {
+  return (
+    <div className="preloader" title={text} alt={text}>
+      <span />
+      <span />
+      <span />
+      <span />
+    </div>
+  );
+}
 
 Loading.propTypes = {
   text: PropTypes.string,
 };
 
 Loading.defaultProps = {
-  text: 'Загрузка...'
-}
+  text: 'Загрузка...',
+};
 
 export default Loading;

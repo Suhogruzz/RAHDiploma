@@ -3,12 +3,12 @@ import { statusTypes } from '../store/storeTypes';
 
 const defaultState = {
   result: {},
-  status: statusTypes.IDLE
+  status: statusTypes.IDLE,
 };
 
 const generatePostDataReducer = ({ name, url, initialState = defaultState }) => createSlice({
-  name: name,
-  initialState: initialState,
+  name,
+  initialState,
   reducers: {
     postDataRequest: {
       reducer: (state, action) => {
@@ -19,9 +19,9 @@ const generatePostDataReducer = ({ name, url, initialState = defaultState }) => 
         payload: {
           data,
           name,
-          url
-        }
-      })
+          url,
+        },
+      }),
     },
     postDataSuccess(state, action) {
       state.result = action.payload;
@@ -36,11 +36,9 @@ const generatePostDataReducer = ({ name, url, initialState = defaultState }) => 
       state.status = statusTypes.IDLE;
     },
     setStatus(state, action) {
-      if (Object.keys(statusTypes).indexOf(action.payload) !== -1)
-        state.status = action.payload;
-    }
+      if (Object.keys(statusTypes).indexOf(action.payload) !== -1) state.status = action.payload;
+    },
   },
 });
-
 
 export default generatePostDataReducer;

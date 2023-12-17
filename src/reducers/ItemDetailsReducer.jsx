@@ -1,14 +1,14 @@
-import { createSlice } from '@reduxjs/toolkit'
+import { createSlice } from '@reduxjs/toolkit';
 import { statusTypes } from '../store/storeTypes';
 
 const defaultState = {
   item: {},
-  status: statusTypes.IDLE
+  status: statusTypes.IDLE,
 };
 
 const generateItemDetailsReducer = ({ name, url, initialState = defaultState }) => createSlice({
-  name: name,
-  initialState: initialState,
+  name,
+  initialState,
   reducers: {
     requestItemDetails: {
       reducer: (state, action) => {
@@ -18,9 +18,9 @@ const generateItemDetailsReducer = ({ name, url, initialState = defaultState }) 
         payload: {
           name,
           url,
-          data
-        }
-      })
+          data,
+        },
+      }),
     },
     setItemDetailsSuccess(state, action) {
       state.item = action.payload;
@@ -32,6 +32,5 @@ const generateItemDetailsReducer = ({ name, url, initialState = defaultState }) 
     },
   },
 });
-
 
 export default generateItemDetailsReducer;

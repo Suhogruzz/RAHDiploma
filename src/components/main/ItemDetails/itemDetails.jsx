@@ -9,8 +9,7 @@ import { statusTypes } from '../../../store/storeTypes';
 import './itemDetails.css';
 import ItemImages from '../../common/ItemImages/itemImages';
 
-const ItemDetails = ({ name }) => {
-
+function ItemDetails({ name }) {
   const cartStorageName = 'storage_cart';
   const cart = useSelector((state) => state[cartStorageName].items);
   const { item, status } = useSelector((state) => state[name]);
@@ -26,20 +25,19 @@ const ItemDetails = ({ name }) => {
   }, [id])
 
   const handleUpdateSelectedSizeList = (size) => {
-    if (selectedSize === size)
-      setSelectedSize('');
+    if (selectedSize === size) setSelectedSize('');
     else {
       setSelectedSize(size);
     }
-  }
+  };
 
   const handleIncCount = () => {
     setCount(count < 10 ? count + 1 : count);
-  }
+  };
 
   const handleDecCount = () => {
     setCount(count > 1 ? count - 1 : count);
-  }
+  };
 
   const handleAddToCart = () => {
     const cartItem = {
@@ -48,35 +46,37 @@ const ItemDetails = ({ name }) => {
       sku: item.sku,
       size: selectedSize,
       price: item.price,
-      count: count
-    }
+      count,
+    };
 
     const index = cart.findIndex((item) => item.id === cartItem.id && item.size === cartItem.size);
     if (index === -1) {
       dispatch(storageActions[cartStorageName].setItems([...cart, cartItem], cartStorageName));
     } else {
-      let curItem = {
+      const curItem = {
         ...cart[index],
-        count: cart[index].count + cartItem.count
-      }
+        count: cart[index].count + cartItem.count,
+      };
       dispatch(storageActions[cartStorageName].setItems([...cart.filter((item, idx) => idx !== index), curItem], cartStorageName));
     }
     navigate('/cart');
-  }
-//LOADING
-  if (status === statusTypes.LOADING)
+  };
+  // LOADING
+  if (status === statusTypes.LOADING) {
     return (
       <section className="catalog-item">
         <Loading />
       </section>
-    )
-//ERROR
-  if (status === statusTypes.ERROR)
+    );
+  }
+  // ERROR
+  if (status === statusTypes.ERROR) {
     return (
       <section className="catalog-item">
         <ErrorBubble />
       </section>
-    )
+    );
+  }
 
   return (
     <section className="catalog-item">
@@ -88,10 +88,18 @@ const ItemDetails = ({ name }) => {
             title={item.title}
           />
           {item.oldPrice && (
-            <span className="item-card-price-old">{item.oldPrice.toLocaleString()} р.</span>
+            <span className="item-card-price-old">
+              {item.oldPrice.toLocaleString()}
+              {' '}
+              р.
+            </span>
           )}
           {item.price && (
-            <span className={`item-card-price${item.oldPrice ? '-new' : ''}`}>{item.price?.toLocaleString()} р.</span>
+            <span className={`item-card-price${item.oldPrice ? '-new' : ''}`}>
+              {item.price?.toLocaleString()}
+              {' '}
+              р.
+            </span>
           )}
         </div>
         <div className="col-7">
@@ -127,7 +135,8 @@ const ItemDetails = ({ name }) => {
             <p>
               Размеры в наличии:
               {item.sizes?.map((v) => (
-                <button key={`sz-${v.size}`}
+                <button
+                  key={`sz-${v.size}`}
                   className={`catalog-item-size ${v.size === selectedSize ? 'selected' : ''} ${v.available ? '' : 'disabled'}`}
                   disabled={!v.available}
                   onClick={() => handleUpdateSelectedSizeList(v.size)}
@@ -136,11 +145,13 @@ const ItemDetails = ({ name }) => {
                 </button>
               ))}
             </p>
-            <p>Количество: <span className="btn-group btn-group-sm pl-2">
-              <button className="btn btn-secondary" disabled={selectedSize.length === 0} onClick={handleDecCount}>-</button>
-              <span className={`btn btn-outline-primary ${selectedSize.length === 0 ? 'text-gray' : 'text-darkgray'}`} disabled={selectedSize.length === 0}>{count}</span>
-              <button className="btn btn-secondary" disabled={selectedSize.length === 0} onClick={handleIncCount}>+</button>
-            </span>
+            <p>
+              Количество:
+              <span className="btn-group btn-group-sm pl-2">
+                <button className="btn btn-secondary" disabled={selectedSize.length === 0} onClick={handleDecCount}>-</button>
+                <span className={`btn btn-outline-primary ${selectedSize.length === 0 ? 'text-gray' : 'text-darkgray'}`} disabled={selectedSize.length === 0}>{count}</span>
+                <button className="btn btn-secondary" disabled={selectedSize.length === 0} onClick={handleIncCount}>+</button>
+              </span>
             </p>
           </div>
           <button
@@ -153,16 +164,16 @@ const ItemDetails = ({ name }) => {
         </div>
       </div>
     </section>
-  )
-};
+  );
+}
 
 ItemDetails.propTypes = {
   name: PropTypes.string.isRequired,
-  withSearch: PropTypes.bool
+  withSearch: PropTypes.bool,
 };
 
 ItemDetails.defaultProps = {
   name: 'itemDetails',
-}
+};
 
 export default ItemDetails;

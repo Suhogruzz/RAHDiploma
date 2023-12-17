@@ -1,4 +1,5 @@
 import PropTypes from 'prop-types';
+import React from 'react';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
@@ -6,26 +7,24 @@ import { listActions } from '../../../reducers';
 import { statusTypes } from '../../../store/storeTypes';
 import ErrorBubble from '../../common/Error/error';
 
-const CatalogCategories = ({ name }) => {
-
+function CatalogCategories({ name }) {
   const { items, selectedItem, status } = useSelector((state) => state[name]);
   const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch(listActions[name].requestItems());
-  }, [dispatch, name])
+  }, [dispatch, name]);
 
   const handleChangeCatalog = (e, item) => {
     e.preventDefault();
     dispatch(listActions[name].selectItem(item));
-  }
-  if (status === statusTypes.ERROR)
-    return <ErrorBubble />
+  };
+  if (status === statusTypes.ERROR) return <ErrorBubble />;
 
   return (
     <ul className="catalog-categories nav justify-content-center">
       {items?.length > 0 && (
-        <li className="nav-item" key={`ch-0`}>
+        <li className="nav-item" key="ch-0">
           <Link
             className={`nav-link ${selectedItem.id ? '' : 'active'}`}
             to=""
@@ -47,16 +46,16 @@ const CatalogCategories = ({ name }) => {
         </li>
       ))}
     </ul>
-  )
-};
+  );
+}
 
 CatalogCategories.propTypes = {
   name: PropTypes.string.isRequired,
-  data: PropTypes.object
+  data: PropTypes.object,
 };
 
 CatalogCategories.defaultProps = {
-  name: 'categories'
-}
+  name: 'categories',
+};
 
 export default CatalogCategories;

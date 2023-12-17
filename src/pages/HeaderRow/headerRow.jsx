@@ -1,13 +1,12 @@
-import { useState } from "react";
-import { NavLink } from "react-router-dom";
-import PropTypes from 'prop-types'
-import Cart from "../../components/header/Cart/cart";
-import SearchBar from "../../components/header/SearchBar/searchBar";
-import { HeadMenu } from "../../components/common/Menu/menu";
+import { useState } from 'react';
+import { NavLink } from 'react-router-dom';
+import PropTypes from 'prop-types';
+import Cart from '../../components/header/Cart/cart';
+import SearchBar from '../../components/header/SearchBar/searchBar';
+import { HeadMenu } from '../../components/common/Menu/menu';
 import './headerRow.css';
 
-const HeaderRow = ({ menu, searchUrl }) => {
-
+function HeaderRow({ menu, searchUrl }) {
   // eslint-disable-next-line no-unused-vars
   const [location, setLocation] = useState(window.location.href.split('/').pop());
 
@@ -25,15 +24,15 @@ const HeaderRow = ({ menu, searchUrl }) => {
         </div>
       </div>
     </nav>
-  )
-};
+  );
+}
 
 HeaderRow.propTypes = {
   menu: PropTypes.shape({
     home: PropTypes.object,
-    menuItems: PropTypes.array
+    menuItems: PropTypes.array,
   }).isRequired,
-  searchUrl: PropTypes.string
+  searchUrl: PropTypes.string,
 };
 
 export default HeaderRow;

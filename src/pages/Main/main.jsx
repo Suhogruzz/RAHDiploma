@@ -1,14 +1,16 @@
 import Banner from '../../components/main/Banner/banner';
 
-const Main = ({ children }) => (
-  <main className="container">
-    <div className="row">
-      <div className="col">
-        <Banner />
-        {children}
+function Main({ children }) {
+  return (
+    <main className="container">
+      <div className="row">
+        <div className="col">
+          <Banner />
+          {children}
+        </div>
       </div>
-    </div>
-  </main>
-);
+    </main>
+  );
+}
 
 export default Main;

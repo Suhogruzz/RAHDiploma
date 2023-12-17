@@ -5,27 +5,30 @@ import PayInfo from '../../components/footer/PayInfo/payInfo';
 import { FootMenu } from '../../components/common/Menu/menu';
 import './footer.css';
 
-const Footer = ({ menu, payData, contacts }) => (
-  <footer className="container bg-light footer">
-    <div className="row">
-      <div className="col">
-        <section>
-          <h5>Информация</h5>
-          <FootMenu menu={menu} />
-        </section>
+function Footer({ menu, payData, contacts }) {
+  return (
+    <footer className="container bg-light footer">
+      <div className="row">
+        <div className="col">
+          <section>
+            <h5>Информация</h5>
+            <FootMenu menu={menu} />
+          </section>
+        </div>
+        <div className="col">
+          <PayInfo payData={payData} />
+          <Copyright />
+        </div>
+        <div className="col text-right">
+          <Contacts data={contacts} />
+        </div>
       </div>
-      <div className="col">
-        <PayInfo payData={payData} />
-        <Copyright />
-      </div>
-      <div className="col text-right">
-        <Contacts data={contacts} />
-      </div>
-    </div>
-  </footer>);
+    </footer>
+  );
+}
 
 Footer.propTypes = {
-  linkTo: PropTypes.string
+  linkTo: PropTypes.string,
 };
 
 export default Footer;

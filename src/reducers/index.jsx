@@ -1,9 +1,9 @@
-import { combineReducers } from "redux";
-import { reducerNames } from "../utils/constants.js";
-import generateItemDetailsReducer from "./ItemDetailsReducer";
-import generateItemsReducer from "./ItemsReducer";
-import generatePostDataReducer from "./PostDataReducer";
-import generateStorageReducer from "./StorageReducer";
+import { combineReducers } from 'redux';
+import { reducerNames } from '../utils/constants';
+import generateItemDetailsReducer from './ItemDetailsReducer';
+import generateItemsReducer from './ItemsReducer';
+import generatePostDataReducer from './PostDataReducer';
+import generateStorageReducer from './StorageReducer';
 
 const reducersItemsSlices = reducerNames.reducersListData.reduce((prev, item) => ({ ...prev, [item.name]: generateItemsReducer({ ...item }) }), {});
 
@@ -19,7 +19,7 @@ export const rootReducer = combineReducers(
     ...Object.keys(reducersItemDetailsSlices).reduce((prev, item) => ({ ...prev, [item]: reducersItemDetailsSlices[item].reducer }), {}),
     ...Object.keys(reducersStorageSlices).reduce((prev, item) => ({ ...prev, [item]: reducersStorageSlices[item].reducer }), {}),
     ...Object.keys(reducersPostDataSlices).reduce((prev, item) => ({ ...prev, [item]: reducersPostDataSlices[item].reducer }), {}),
-  }
+  },
 );
 
 export const listActions = Object.keys(reducersItemsSlices).reduce((prev, item) => ({ ...prev, [item]: reducersItemsSlices[item].actions }), {});

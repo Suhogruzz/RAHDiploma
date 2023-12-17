@@ -1,9 +1,9 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import PropTypes from 'prop-types'
+import PropTypes from 'prop-types';
 import './error.css';
 
-const ErrorBubble = ({ text = 'Произошла ошибка! ', info, retry = null }) => {
+function ErrorBubble({ text = 'Произошла ошибка! ', info, retry = null }) {
   const navigate = useNavigate();
 
   return (
@@ -16,11 +16,10 @@ const ErrorBubble = ({ text = 'Произошла ошибка! ', info, retry =
         className="error-link"
         onClick={(e) => {
           e.preventDefault();
-          if (retry)
-            retry();
-          else
-            window.location.reload(false);
-        }}>
+          if (retry) retry();
+          else window.location.reload(false);
+        }}
+      >
         Попробовать еще раз
       </span>
       <span> или </span>
@@ -29,13 +28,14 @@ const ErrorBubble = ({ text = 'Произошла ошибка! ', info, retry =
         onClick={(e) => {
           e.preventDefault();
           navigate(-1);
-        }}>
+        }}
+      >
         вернуться
       </span>
 
     </div>
-  )
-};
+  );
+}
 
 ErrorBubble.propTypes = {
   text: PropTypes.string,
@@ -45,7 +45,7 @@ ErrorBubble.propTypes = {
 
 ErrorBubble.defaultProps = {
   text: 'Произошла ошибка! ',
-  retry: null
-}
+  retry: null,
+};
 
 export default ErrorBubble;

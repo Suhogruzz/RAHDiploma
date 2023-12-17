@@ -1,9 +1,9 @@
-import { useState } from "react";
+import React from 'react';
+import { useState } from 'react';
 import PropTypes from 'prop-types';
 import './searchBar.css';
 
-const SearchBar = ({ searchUrl }) => {
-
+function SearchBar({ searchUrl }) {
   const [show, setShow] = useState(false);
 
   return (
@@ -13,7 +13,7 @@ const SearchBar = ({ searchUrl }) => {
         className={`header-controls-search-form form-inline ${show ? 'control-show' : 'invisible'}`}
       >
         <input
-          className={`form-control control-show`}
+          className="form-control control-show"
           placeholder="Поиск"
           name="q"
         />
@@ -25,8 +25,8 @@ const SearchBar = ({ searchUrl }) => {
         onClick={() => setShow((prev) => !prev)}
       />
     </div>
-  )
-};
+  );
+}
 
 SearchBar.propTypes = {
   searchUrl: PropTypes.string.isRequired,

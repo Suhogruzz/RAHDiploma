@@ -1,3 +1,4 @@
+import React from 'react';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useSearchParams } from 'react-router-dom';
@@ -11,8 +12,7 @@ import CatalogSearchForm from './CatalogueSearchForm';
 import './catalogue.css';
 import ErrorBubble from '../../common/Error/error';
 
-const Catalog = ({ name, withSearch = false }) => {
-
+function Catalog({ name, withSearch = false }) {
   const categoryReducerName = 'categories';
   const [searchParams] = useSearchParams();
   const queryString = searchParams.get('q');
@@ -22,33 +22,35 @@ const Catalog = ({ name, withSearch = false }) => {
   const [searchQuery, setSearchQuery] = useState(queryString);
   const prepareRequestParams = (offset = 0) => {
     let result = { offset };
-    if (selectedItem.id !== undefined)
+    if (selectedItem.id !== undefined) {
       result = {
         ...result,
-        categoryId: selectedItem.id
+        categoryId: selectedItem.id,
       };
-    if (searchQuery && searchQuery.length > 0)
+    }
+    if (searchQuery && searchQuery.length > 0) {
       result = {
         ...result,
-        q: searchQuery
+        q: searchQuery,
       };
+    }
 
     return result;
-  }
+  };
 
   const handleGetMoreItems = (params, update = false) => {
     dispatch(listActions[name].requestItems(params, update));
-  }
-  
+  };
+
   useEffect(() => {
     handleGetMoreItems(prepareRequestParams());
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [selectedItem, selectedItem.id, searchQuery])
+  }, [selectedItem, selectedItem.id, searchQuery]);
 
   const handleChangeSearchString = (query) => {
-    let res = query.trim();
+    const res = query.trim();
     setSearchQuery(res);
-  }
+  };
 
   return (
     <section className="catalog">
@@ -56,16 +58,18 @@ const Catalog = ({ name, withSearch = false }) => {
         Каталог
       </h2>
 
-      {withSearch &&
+      {withSearch
+        && (
         <CatalogSearchForm
           handleChange={handleChangeSearchString}
-          value={searchQuery} />
-      }
+          value={searchQuery}
+        />
+        )}
       <CatalogCategories name={categoryReducerName} />
       {status === statusTypes.LOADING && items?.length === 0 ? (
         <Loading />
-      ) :
-        status === statusTypes.ERROR ? (
+      )
+        : status === statusTypes.ERROR ? (
           <ErrorBubble />
         ) : (
           <div>
@@ -86,8 +90,8 @@ const Catalog = ({ name, withSearch = false }) => {
             <div className="text-center more-info">
               {status === statusTypes.LOADING ? (
                 <Loading />
-              ) :
-                status !== statusTypes.IDLE && (
+              )
+                : status !== statusTypes.IDLE && (
                   <button
                     className="btn btn-outline-primary"
                     onClick={() => handleGetMoreItems(prepareRequestParams(items.length), true)}
@@ -99,17 +103,17 @@ const Catalog = ({ name, withSearch = false }) => {
           </div>
         )}
     </section>
-  )
-};
+  );
+}
 
 Catalog.propTypes = {
   name: PropTypes.string.isRequired,
-  withSearch: PropTypes.bool
+  withSearch: PropTypes.bool,
 };
 
 Catalog.defaultProps = {
   name: 'items',
-  withSearch: false
-}
+  withSearch: false,
+};
 
 export default Catalog;

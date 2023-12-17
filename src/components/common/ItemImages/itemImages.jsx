@@ -1,12 +1,12 @@
-import PropTypes from 'prop-types'
+import React from 'react';
+import PropTypes from 'prop-types';
 import './itemImages.css';
 
-const ItemImages = ({ images, title }) => {
-
+function ItemImages({ images, title }) {
   const handleChangePhoto = (e) => {
     const curIndex = images.findIndex((v) => v === e.target.src);
     e.target.src = images[(curIndex + 1) % images.length];
-  }
+  };
 
   const imgResult = images && images.length > 0 ? (
     <img
@@ -22,17 +22,16 @@ const ItemImages = ({ images, title }) => {
       className="card-img-top img-fluid img-fit"
       alt={title}
     />
-  )
-
+  );
 
   return (
     imgResult
-  )
-};
+  );
+}
 
 ItemImages.propTypes = {
   images: PropTypes.array,
-  title: PropTypes.string
+  title: PropTypes.string,
 };
 
 export default ItemImages;
