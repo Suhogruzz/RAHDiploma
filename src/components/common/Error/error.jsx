@@ -5,7 +5,6 @@ import './error.css';
 
 function ErrorBubble({ text = 'Произошла ошибка! ', info, retry = null }) {
   const navigate = useNavigate();
-
   return (
     <div className="error" aria-label={text} title={text}>
       <span>{text}</span>

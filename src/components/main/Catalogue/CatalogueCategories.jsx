@@ -19,7 +19,12 @@ function CatalogCategories({ name }) {
     e.preventDefault();
     dispatch(listActions[name].selectItem(item));
   };
-  if (status === statusTypes.ERROR) return <ErrorBubble />;
+
+  const handleError = () => {
+    dispatch(listActions[name].requestItems());
+  }
+
+  if (status === statusTypes.ERROR) return <ErrorBubble retry={handleError}/>;
 
   return (
     <ul className="catalog-categories nav justify-content-center">
