@@ -70,7 +70,7 @@ function Catalog({ name, withSearch = false }) {
         <Loading />
       )
         : status === statusTypes.ERROR ? (
-          <ErrorBubble />
+          <ErrorBubble retry={ handleGetMoreItems }/>
         ) : (
           <div>
             {items?.length > 0 ? (

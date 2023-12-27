@@ -16,6 +16,10 @@ function TopSales({ name }) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  const handleError = () => {
+    dispatch(listActions[name].requestItems(name));
+  }
+
   return (
     <section className="top-sales">
       <h2 className="text-center">Хиты продаж!</h2>
@@ -23,7 +27,7 @@ function TopSales({ name }) {
         <Loading />
       )
         : status === statusTypes.ERROR ? (
-          <ErrorBubble />
+          <ErrorBubble retry={handleError}/>
 			  ) : (
   <div className="row">
     {items.map((v) => (

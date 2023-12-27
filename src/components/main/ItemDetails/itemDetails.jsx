@@ -31,6 +31,10 @@ function ItemDetails({ name }) {
     }
   };
 
+  const handleError = () => {
+    dispatch(itemActions[name].requestItemDetails(id, name))
+  };
+
   const handleIncCount = () => {
     setCount(count < 10 ? count + 1 : count);
   };
@@ -73,7 +77,7 @@ function ItemDetails({ name }) {
   if (status === statusTypes.ERROR) {
     return (
       <section className="catalog-item">
-        <ErrorBubble />
+        <ErrorBubble retry={handleError}/>
       </section>
     );
   }
