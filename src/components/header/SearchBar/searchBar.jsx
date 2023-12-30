@@ -21,7 +21,6 @@ function SearchBar({ searchUrl }) {
           e.preventDefault();
           navigate(searchUrl + '?q=' + search);
         }}
-        method='GET'
         className={`header-controls-search-form form-inline ${show ? 'control-show' : 'invisible'}`}
       >
         <input

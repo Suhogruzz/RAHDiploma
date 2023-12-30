@@ -16,7 +16,6 @@ function ErrorBubble({ text = 'Произошла ошибка! ', info, retry =
         onClick={(e) => {
           e.preventDefault();
           if (retry) retry();
-          else window.location.reload(false);
         }}
       >
         Попробовать еще раз
