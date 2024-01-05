@@ -39,7 +39,7 @@ const generateItemsReducer = ({ name, url, initialState = defaultState }) => cre
       state.status = statusTypes.IDLE;
     },
     setItemsError(state, action) {
-      state.items = [];
+      state.items = [...state.items];
       state.status = statusTypes.ERROR;
     },
     selectItem(state, action) {

@@ -38,7 +38,13 @@ function Catalog({ name, withSearch = false }) {
     return result;
   };
 
+
+
   const handleGetMoreItems = (params, update = false) => {
+    dispatch(listActions[name].requestItems(params, update));
+  };
+
+  const handleError = (params, update = true) => {
     dispatch(listActions[name].requestItems(params, update));
   };
 
@@ -68,10 +74,8 @@ function Catalog({ name, withSearch = false }) {
       <CatalogCategories name={categoryReducerName} />
       {status === statusTypes.LOADING && items?.length === 0 ? (
         <Loading />
-      )
-        : status === statusTypes.ERROR ? (
-          <ErrorBubble retry={ handleGetMoreItems }/>
-        ) : (
+      ) : status === statusTypes.ERROR && items?.length === 0  ?(
+        <ErrorBubble handleError retry={handleError}/>)  : (
           <div>
             {items?.length > 0 ? (
               <div className="row">
@@ -90,6 +94,8 @@ function Catalog({ name, withSearch = false }) {
             <div className="text-center more-info">
               {status === statusTypes.LOADING ? (
                 <Loading />
+              ) : status === statusTypes.ERROR && items?.length > 0  ?(
+                <ErrorBubble handleError retry={() => handleError(prepareRequestParams(items.length), true)}/>
               )
                 : status !== statusTypes.IDLE && (
                   <button
